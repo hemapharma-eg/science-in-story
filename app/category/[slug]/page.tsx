@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { articles, categories, subcategories } from '@/lib/data';
+import { fetchContent } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;
+  const { categories } = await fetchContent();
   const category = categories.find(c => c.slug === p.slug);
   if (!category) return {};
   return { title: `تصنيف: ${category.name} - العلم في حكاية` };
@@ -11,11 +12,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;
+  const { articles, categories, subcategories } = await fetchContent();
   const foundCat = categories.find(c => c.slug === p.slug);
 
   const category = foundCat ? {
     ...foundCat,
-    subcategories: subcategories.filter(s => s.categoryId === foundCat.id),
+    subcategories: (subcategories as any[]).filter(s => s.categoryId === foundCat.id),
     articles: articles.filter(a => a.categoryId === foundCat.id && a.isPublished).sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
   } : null;
 

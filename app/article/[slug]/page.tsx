@@ -1,8 +1,9 @@
-import { articles, categories } from '@/lib/data';
+import { fetchContent } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;
+  const { articles } = await fetchContent();
   const article = articles.find(a => a.slug === p.slug);
   if (!article) return {};
   return { title: article.title + ' - العلم في حكاية' };
@@ -11,6 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;
   // Make sure we fetch the slug safely and wait for params logic (Next.js 15+ wait params)
+  const { articles, categories } = await fetchContent();
   const foundArticle = articles.find(a => a.slug === p.slug);
   
   const article = foundArticle ? {

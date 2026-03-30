@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { articles as localArticles, categories as localCategories, subcategories } from '@/lib/data';
+import { fetchContent } from '@/lib/data';
 import './globals.css';
 import * as framerMotion from 'framer-motion';
 
@@ -11,16 +11,18 @@ import * as framerMotion from 'framer-motion';
 export const revalidate = 60; // Revalidate every minute
 
 export default async function HomePage() {
-  const articles = localArticles
+  const { articles: fetchedArticles, categories: fetchedCategories, subcategories } = await fetchContent();
+
+  const articles = fetchedArticles
     .filter(a => a.isPublished)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 10)
     .map(article => ({
       ...article,
-      category: localCategories.find(c => c.id === article.categoryId) || null
+      category: fetchedCategories.find(c => c.id === article.categoryId) || null
     }));
 
-  const categories = localCategories.map(cat => ({
+  const categories = fetchedCategories.map(cat => ({
     ...cat,
     subcategories: subcategories.filter(sub => sub.categoryId === cat.id)
   }));

@@ -10,7 +10,10 @@ export default async function AdminCategories() {
     <div>
       <h1 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'var(--primary)' }}>إدارة التصنيفات</h1>
       
-      <form action={createCategory} className="glass-panel" style={{ padding: '1.5rem', marginBottom: '3rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <form action={async (formData) => {
+        'use server';
+        await createCategory(formData);
+      }} className="glass-panel" style={{ padding: '1.5rem', marginBottom: '3rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <input 
           type="text" 
           name="name" 

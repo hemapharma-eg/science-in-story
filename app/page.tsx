@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { prisma } from '@/lib/prisma';
+import { articles as localArticles, categories as localCategories, subcategories } from '@/lib/data';
 import './globals.css';
 import * as framerMotion from 'framer-motion';
 
@@ -11,16 +11,19 @@ import * as framerMotion from 'framer-motion';
 export const revalidate = 60; // Revalidate every minute
 
 export default async function HomePage() {
-  const articles = await prisma.article.findMany({
-    where: { isPublished: true },
-    orderBy: { createdAt: 'desc' },
-    include: { category: true },
-    take: 10,
-  });
+  const articles = localArticles
+    .filter(a => a.isPublished)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 10)
+    .map(article => ({
+      ...article,
+      category: localCategories.find(c => c.id === article.categoryId) || null
+    }));
 
-  const categories = await prisma.category.findMany({
-    include: { subcategories: true },
-  });
+  const categories = localCategories.map(cat => ({
+    ...cat,
+    subcategories: subcategories.filter(sub => sub.categoryId === cat.id)
+  }));
 
   return (
     <div className="home-page" style={{ animation: 'fadeIn 0.5s ease-out' }}>

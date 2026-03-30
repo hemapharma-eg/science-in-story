@@ -1,14 +1,9 @@
 import Link from 'next/link';
 import { fetchContent } from '@/lib/data';
 import './globals.css';
-import * as framerMotion from 'framer-motion';
+import SearchBar from './components/SearchBar';
 
-// Mock framer-motion client wrapper to allow motion components without "use client" on the whole page,
-// but actually, we need a client component for framer-motion. Since the home page is a server component,
-// Framer Motion limits what animations you can do natively on Server Components. 
-// A simple fade in is better left to CSS if we don't extract it to a Client wrapper.
-
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 60;
 
 export default async function HomePage() {
   const { articles: fetchedArticles, categories: fetchedCategories, subcategories } = await fetchContent();
@@ -16,7 +11,7 @@ export default async function HomePage() {
   const articles = fetchedArticles
     .filter(a => a.isPublished)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10)
+    .slice(0, 20)
     .map(article => ({
       ...article,
       category: fetchedCategories.find(c => c.id === article.categoryId) || null
@@ -27,54 +22,59 @@ export default async function HomePage() {
     subcategories: subcategories.filter(sub => sub.categoryId === cat.id)
   }));
 
+  // Prepare search data for the client component
+  const searchableArticles = articles.map(a => ({
+    id: a.id,
+    title: a.title,
+    slug: a.slug,
+    body: a.body.substring(0, 300),
+    youtubeUrl: a.youtubeUrl,
+    categoryName: a.category?.name,
+  }));
+
   return (
-    <div className="home-page" style={{ animation: 'fadeIn 0.5s ease-out' }}>
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-pop-in {
-          animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-        }
-        @keyframes popIn {
-          0% { opacity: 0; transform: scale(0.95); }
-          100% { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
-      <section className="hero-section glass-panel animate-pop-in" style={{ padding: '3rem', textAlign: 'center', marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>مرحباً بك في العلم في حكاية</h2>
-        <p style={{ fontSize: '1.2rem', color: 'var(--foreground)', opacity: 0.8 }}>
+    <div className="home-page animate-fade-in">
+      {/* Hero */}
+      <section className="hero-section glass-panel animate-pop-in" style={{ marginBottom: '2.5rem' }}>
+        <h2 className="hero-title">العلم في حكاية</h2>
+        <p className="hero-subtitle">
           اكتشف أعظم الحكايات العلمية، مقالات وفيديوهات مشوقة تأخذك في رحلة معرفية.
         </p>
       </section>
 
-      <div className="content-grid" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      {/* Search */}
+      <SearchBar articles={searchableArticles} />
+
+      {/* Content Grid */}
+      <div className="content-grid" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
         {/* Main Feed */}
         <div className="feed" style={{ flex: '3', minWidth: '300px' }}>
-          <h3 style={{ borderBottom: '2px solid var(--primary)', paddingBottom: '0.5rem', marginBottom: '1.5rem' }}>
-            أحدث المقالات
-          </h3>
-          <div className="articles-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <h3 className="section-title">أحدث المقالات</h3>
+          <div className="search-results-grid stagger-children">
             {articles.length === 0 ? (
-              <p>لا توجد مقالات منشورة حالياً.</p>
+              <div className="empty-state glass-panel">
+                <p style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>📚</p>
+                <p>لا توجد مقالات منشورة حالياً.</p>
+                <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>أضف محتوى في جدول البيانات وسيظهر هنا تلقائياً!</p>
+              </div>
             ) : (
               articles.map((article) => (
-                <article key={article.id} className="article-card glass-panel" style={{ padding: '1.5rem', transition: 'transform 0.2s' }}>
+                <article key={article.id} className="article-card glass-panel animate-fade-in">
                   <Link href={`/article/${article.slug}`}>
-                    <h4 style={{ fontSize: '1.5rem', color: 'var(--primary)', marginBottom: '0.5rem' }}>
-                      {article.title}
-                    </h4>
+                    <h4 className="article-card-title">{article.title}</h4>
                   </Link>
-                  {article.category && (
-                    <span style={{ fontSize: '0.9rem', background: 'var(--primary)', color: 'white', padding: '0.2rem 0.6rem', borderRadius: '12px' }}>
-                      {article.category.name}
-                    </span>
-                  )}
-                  {article.youtubeUrl && (
-                    <div style={{ marginTop: '1rem', color: 'gray', fontSize: '0.9rem' }}>
-                      🎥 يحتوي على فيديو
-                    </div>
+                  <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center', marginTop: '0.5rem' }}>
+                    {article.category && (
+                      <span className="category-badge">{article.category.name}</span>
+                    )}
+                    {article.youtubeUrl && (
+                      <span className="video-badge">🎥 يحتوي على فيديو</span>
+                    )}
+                  </div>
+                  {article.body && (
+                    <p style={{ color: 'var(--foreground-muted)', fontSize: '0.95rem', marginTop: '0.8rem', lineHeight: '1.7' }}>
+                      {article.body.replace(/<[^>]+>/g, '').substring(0, 120)}...
+                    </p>
                   )}
                 </article>
               ))
@@ -83,28 +83,21 @@ export default async function HomePage() {
         </div>
 
         {/* Sidebar */}
-        <aside className="sidebar" style={{ flex: '1', minWidth: '250px' }}>
-          <div className="glass-panel" style={{ padding: '1.5rem' }}>
-            <h3 style={{ borderBottom: '2px solid var(--primary)', paddingBottom: '0.5rem', marginBottom: '1.5rem' }}>
-              التصنيفات
-            </h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+        <aside className="sidebar" style={{ flex: '1', minWidth: '260px' }}>
+          <div className="glass-panel sidebar-panel">
+            <h3 className="section-title">التصنيفات</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1rem' }}>
               {categories.map((cat) => (
-                <li key={cat.id}>
-                  <Link href={`/category/${cat.slug}`} style={{ fontWeight: '600' }}>
+                <div key={cat.id}>
+                  <Link href={`/category/${cat.slug}`} className="category-link">
                     {cat.name}
                   </Link>
-                  {cat.subcategories.length > 0 && (
-                    <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.4rem', marginRight: '1rem', listStyle: 'circle' }}>
-                      {cat.subcategories.map(sub => (
-                        <li key={sub.id}>{sub.name}</li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
+                </div>
               ))}
-              {categories.length === 0 && <p>لا توجد تصنيفات.</p>}
-            </ul>
+              {categories.length === 0 && (
+                <p style={{ color: 'var(--foreground-muted)', padding: '0.5rem' }}>لا توجد تصنيفات.</p>
+              )}
+            </div>
           </div>
         </aside>
       </div>

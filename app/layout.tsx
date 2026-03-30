@@ -30,7 +30,7 @@ export default function RootLayout({
       </head>
       <body className={cairo.className}>
         <div className="layout-wrapper">
-          <header className="main-header glass-panel">
+          <header className="main-header">
             <div className="container header-content">
               <h1>العلم في حكاية</h1>
               <nav>

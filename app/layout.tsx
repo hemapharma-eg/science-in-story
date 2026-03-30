@@ -35,7 +35,6 @@ export default function RootLayout({
               <h1>العلم في حكاية</h1>
               <nav>
                 <a href="/">الرئيسية</a>
-                <a href="/admin">لوحة التحكم</a>
               </nav>
             </div>
           </header>

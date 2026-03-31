@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 
 const cairo = Cairo({
@@ -31,10 +32,24 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <head>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-0GL5XJQDMV"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-0GL5XJQDMV');
+          `}
+        </Script>
+
         {/* Google AdSense Script Placeholder */}
         <script 
           async 
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" 
           crossOrigin="anonymous"
         ></script>
       </head>

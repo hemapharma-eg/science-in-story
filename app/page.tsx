@@ -4,6 +4,7 @@ import './globals.css';
 import SearchBar from './components/SearchBar';
 
 export const revalidate = 60;
+export const runtime = 'edge';
 
 export default async function HomePage() {
   const { articles: fetchedArticles, categories: fetchedCategories, subcategories } = await fetchContent();

@@ -11,10 +11,22 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;
-  const { articles } = await fetchContent();
+  const { articles, categories } = await fetchContent();
   const article = articles.find(a => a.slug === p.slug);
   if (!article) return {};
-  return { title: article.title + ' - العلم في حكاية' };
+  const category = categories.find(c => c.id === article.categoryId);
+  const plainBody = article.body.replace(/<[^>]+>/g, '').substring(0, 160);
+  return {
+    title: `${article.title} - العلم في حكاية`,
+    description: plainBody || `${article.title} - مقال علمي من موقع العلم في حكاية`,
+    keywords: article.keywords,
+    openGraph: {
+      title: article.title,
+      description: plainBody || `${article.title} - العلم في حكاية`,
+      type: 'article',
+      ...(category && { section: category.name }),
+    },
+  };
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {

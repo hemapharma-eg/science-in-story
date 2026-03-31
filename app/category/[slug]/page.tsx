@@ -11,10 +11,19 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;
-  const { categories } = await fetchContent();
+  const { categories, articles } = await fetchContent();
   const category = categories.find(c => c.slug === p.slug);
   if (!category) return {};
-  return { title: `تصنيف: ${category.name} - العلم في حكاية` };
+  const articleCount = articles.filter(a => a.categoryId === category.id && a.isPublished).length;
+  return {
+    title: `${category.name} - العلم في حكاية`,
+    description: `اكتشف ${articleCount} مقال وفيديو في قسم ${category.name} على موقع العلم في حكاية. محتوى علمي شيق ومبسط باللغة العربية.`,
+    openGraph: {
+      title: `${category.name} - العلم في حكاية`,
+      description: `مقالات وفيديوهات علمية في قسم ${category.name}`,
+      type: 'website',
+    },
+  };
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {

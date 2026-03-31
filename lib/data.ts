@@ -27,6 +27,49 @@ export interface Article {
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1dM7zIfR0wsU2meX91XjYMnMlczJbbWWDxwnoOhwvc6w/export?format=csv';
 
 /**
+ * Arabic-to-Latin transliteration map for SEO-friendly URL slugs.
+ * Produces readable romanized slugs (e.g. تاريخ → tarikh, علم نفس → elm-nafs).
+ */
+const ARABIC_TO_LATIN: Record<string, string> = {
+  'ا': 'a', 'أ': 'a', 'إ': 'e', 'آ': 'aa', 'ب': 'b', 'ت': 't', 'ث': 'th',
+  'ج': 'j', 'ح': 'h', 'خ': 'kh', 'د': 'd', 'ذ': 'dh', 'ر': 'r', 'ز': 'z',
+  'س': 's', 'ش': 'sh', 'ص': 's', 'ض': 'd', 'ط': 't', 'ظ': 'z', 'ع': 'a',
+  'غ': 'gh', 'ف': 'f', 'ق': 'q', 'ك': 'k', 'ل': 'l', 'م': 'm', 'ن': 'n',
+  'ه': 'h', 'و': 'w', 'ي': 'y', 'ى': 'a', 'ة': 'a', 'ئ': 'e', 'ؤ': 'o',
+  'ء': '', 'ﻻ': 'la', 'ﻷ': 'la', 'ﻹ': 'le', 'ﻵ': 'laa',
+  // Diacritics (tashkeel) – strip them
+  '\u064B': '', '\u064C': '', '\u064D': '', '\u064E': '', '\u064F': '',
+  '\u0650': '', '\u0651': '', '\u0652': '',
+};
+
+/**
+ * Generate an ASCII-safe, SEO-friendly slug from any text (including Arabic).
+ * Arabic text is transliterated to Latin characters (e.g. تاريخ → tarikh).
+ * This preserves keyword meaning for search engines while being URL-safe.
+ */
+function toSafeSlug(text: string): string {
+  // First try: if it's already ASCII-safe, just clean it up
+  const ascii = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  if (ascii.length > 0) return ascii;
+
+  // Transliterate Arabic to Latin
+  let result = '';
+  for (const char of text) {
+    if (char in ARABIC_TO_LATIN) {
+      result += ARABIC_TO_LATIN[char];
+    } else if (char === ' ' || char === '\t') {
+      result += '-';
+    } else if (/[a-zA-Z0-9]/.test(char)) {
+      result += char.toLowerCase();
+    }
+    // Skip any other non-mapped characters
+  }
+
+  // Clean up: collapse multiple dashes, trim dashes from edges
+  return result.replace(/-+/g, '-').replace(/^-|-$/g, '') || 'general';
+}
+
+/**
  * Lightweight CSV parser that works on the Edge Runtime.
  * Handles quoted fields with commas and newlines inside them.
  */
@@ -110,7 +153,7 @@ export async function fetchContent() {
       if (!row['Title'] || !row['Slug']) continue;
 
       const catName = row['Category'] ? row['Category'].trim() : 'عام';
-      const catSlug = encodeURIComponent(catName.toLowerCase().replace(/\s+/g, '-'));
+      const catSlug = toSafeSlug(catName);
 
       if (!categoriesMap.has(catSlug)) {
         categoriesMap.set(catSlug, {

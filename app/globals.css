@@ -440,22 +440,23 @@ body::after {
 }
 
 .category-tile-3d:hover {
-  transform: translateY(-8px) rotateX(10deg) rotateY(-5deg) scale(1.05);
+  transform: translateY(-8px) rotateX(8deg) rotateY(-4deg) scale(1.05);
   border-color: var(--primary-light);
-  color: #fff;
   box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.5), 
-    0 10px 20px var(--primary-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 20px 50px rgba(0, 0, 0, 0.6), 
+    0 0 30px var(--primary-glow),
+    inset 0 0 20px rgba(124, 58, 237, 0.2);
 }
 
 .category-tile-3d:hover::before {
   opacity: 1;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(34, 211, 238, 0.1));
 }
 
 .category-tile-3d span {
   position: relative;
   z-index: 1;
+  color: var(--foreground); /* Fallback */
   background: linear-gradient(135deg, #ffffff, var(--primary-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -464,8 +465,8 @@ body::after {
 }
 
 .category-tile-3d:hover span {
-  background: #ffffff;
   -webkit-text-fill-color: #ffffff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 /* ===================== ARTICLE PAGE ===================== */

@@ -107,8 +107,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         {article.keywords && (
           <div style={{ marginTop: '2rem', display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-            {article.keywords.split(',').map((kw, i) => {
-              const keyword = kw.trim();
+            {article.keywords.split(/[,?\s]+/).map((kw, i) => {
+              const keyword = kw.trim().replace(/^#/, '');
               if (!keyword) return null;
               return (
                 <span key={i} style={{ 

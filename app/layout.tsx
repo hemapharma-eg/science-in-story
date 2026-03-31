@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
 import './globals.css';
 
@@ -11,6 +11,16 @@ const cairo = Cairo({
 export const metadata: Metadata = {
   title: 'العلم في حكاية - Science in Story',
   description: 'منصة العلم في حكاية - مقالات وفيديوهات علمية شيقة',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'العلم في حكاية',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#7c3aed',
 };
 
 export default function RootLayout({

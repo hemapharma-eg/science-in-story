@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { fetchContent } from '@/lib/data';
 
+export const dynamic = 'force-static';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { articles, categories } = await fetchContent();
   const baseUrl = 'https://science-in-story.pages.dev';

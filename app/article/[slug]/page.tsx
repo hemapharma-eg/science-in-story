@@ -84,7 +84,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--primary-light)' }}>روابط ومصادر إضافية 🔗</h3>
             <div 
               style={{ lineHeight: '1.8', color: 'var(--foreground-muted)' }}
-              dangerouslySetInnerHTML={{ __html: article.externalLinks.replace(/\r?\n/g, '<br />') }} 
+              dangerouslySetInnerHTML={{ 
+                __html: article.externalLinks
+                  .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: var(--cyan); text-decoration: underline; word-break: break-all;">$1</a>')
+                  .replace(/\r?\n/g, '<br />') 
+              }} 
             />
           </div>
         )}

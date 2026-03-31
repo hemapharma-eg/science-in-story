@@ -89,9 +89,7 @@ function parseCSV(csv: string): Record<string, string>[] {
 
 export async function fetchContent() {
   try {
-    const res = await fetch(SHEET_URL, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(SHEET_URL);
     if (!res.ok) {
       console.error('Failed to fetch from Google Sheets');
       return { articles: [], categories: [], subcategories: [] };

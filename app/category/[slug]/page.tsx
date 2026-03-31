@@ -2,7 +2,12 @@ import Link from 'next/link';
 import { fetchContent } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
-export const runtime = 'edge';
+export async function generateStaticParams() {
+  const { categories } = await fetchContent();
+  return categories.map((category) => ({
+    slug: category.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const p = await params;

@@ -122,7 +122,13 @@ export async function fetchContent() {
         id: row['Slug'].trim(),
         title: row['Title'].trim(),
         slug: row['Slug'].trim(),
-        body: row['Content'] || '',
+        body: (row['Content'] || '').includes('<p>') 
+          ? row['Content'] 
+          : (row['Content'] || '')
+              .split(/\r?\n\r?\n/)
+              .filter(p => p.trim() !== '')
+              .map(p => `<p>${p.replace(/\r?\n/g, '<br />')}</p>`)
+              .join(''),
         youtubeUrl: row['YouTube'] ? row['YouTube'].trim() : undefined,
         categoryId: catSlug,
         isPublished: true,

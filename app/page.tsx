@@ -32,12 +32,19 @@ export default async function HomePage() {
 
   return (
     <div className="home-page animate-fade-in">
-      {/* Hero */}
-      <section className="hero-section glass-panel animate-pop-in" style={{ marginBottom: '2.5rem' }}>
-        <h2 className="hero-title">العلم في حكاية</h2>
-        <p className="hero-subtitle">
-          اكتشف أعظم الحكايات العلمية، مقالات وفيديوهات مشوقة تأخذك في رحلة معرفية.
-        </p>
+      {/* Categories Hero */}
+      <section className="hero-section glass-panel animate-pop-in" style={{ marginBottom: '2.5rem', padding: '3rem 2rem' }}>
+        <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '2rem' }}>تصفح الأقسام</h2>
+        <div className="category-tiles-container">
+          {categories.map((cat) => (
+            <Link key={cat.id} href={`/category/${cat.slug}`} className="category-tile-3d">
+              <span>{cat.name}</span>
+            </Link>
+          ))}
+          {categories.length === 0 && (
+            <p style={{ color: 'var(--foreground-muted)' }}>لا توجد تصنيفات حالياً.</p>
+          )}
+        </div>
       </section>
 
       {/* Search */}

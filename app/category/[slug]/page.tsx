@@ -59,19 +59,19 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           </div>
         ) : (
           category.articles.map((article) => (
-            <article key={article.id} className="article-card glass-panel animate-fade-in">
-              <Link href={`/article/${article.slug}`}>
+            <Link key={article.id} href={`/article/${article.slug}`} style={{ display: 'block' }}>
+              <article className="article-card glass-panel animate-fade-in">
                 <h4 className="article-card-title">{article.title}</h4>
-              </Link>
-              {article.youtubeUrl && (
-                <span className="video-badge">🎥 يحتوي على فيديو</span>
-              )}
-              {article.body && (
-                <p style={{ color: 'var(--foreground-muted)', fontSize: '0.95rem', marginTop: '0.8rem', lineHeight: '1.7' }}>
-                  {article.body.replace(/<[^>]+>/g, '').substring(0, 120)}...
-                </p>
-              )}
-            </article>
+                {article.youtubeUrl && (
+                  <span className="video-badge">🎥 يحتوي على فيديو</span>
+                )}
+                {article.body && (
+                  <p style={{ color: 'var(--foreground-muted)', fontSize: '0.95rem', marginTop: '0.8rem', lineHeight: '1.7' }}>
+                    {article.body.replace(/<[^>]+>/g, '').substring(0, 120)}...
+                  </p>
+                )}
+              </article>
+            </Link>
           ))
         )}
       </div>

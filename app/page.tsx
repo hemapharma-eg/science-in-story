@@ -64,24 +64,24 @@ export default async function HomePage() {
               </div>
             ) : (
               articles.map((article) => (
-                <article key={article.id} className="article-card glass-panel animate-fade-in">
-                  <Link href={`/article/${article.slug}`}>
+                <Link key={article.id} href={`/article/${article.slug}`} style={{ display: 'block' }}>
+                  <article className="article-card glass-panel animate-fade-in">
                     <h4 className="article-card-title">{article.title}</h4>
-                  </Link>
-                  <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center', marginTop: '0.5rem' }}>
-                    {article.category && (
-                      <span className="category-badge">{article.category.name}</span>
+                    <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center', marginTop: '0.5rem' }}>
+                      {article.category && (
+                        <span className="category-badge">{article.category.name}</span>
+                      )}
+                      {article.youtubeUrl && (
+                        <span className="video-badge">🎥 يحتوي على فيديو</span>
+                      )}
+                    </div>
+                    {article.body && (
+                      <p style={{ color: 'var(--foreground-muted)', fontSize: '0.95rem', marginTop: '0.8rem', lineHeight: '1.7' }}>
+                        {article.body.replace(/<[^>]+>/g, '').substring(0, 120)}...
+                      </p>
                     )}
-                    {article.youtubeUrl && (
-                      <span className="video-badge">🎥 يحتوي على فيديو</span>
-                    )}
-                  </div>
-                  {article.body && (
-                    <p style={{ color: 'var(--foreground-muted)', fontSize: '0.95rem', marginTop: '0.8rem', lineHeight: '1.7' }}>
-                      {article.body.replace(/<[^>]+>/g, '').substring(0, 120)}...
-                    </p>
-                  )}
-                </article>
+                  </article>
+                </Link>
               ))
             )}
           </div>

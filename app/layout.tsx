@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'العلم في حكاية - Science in Story',
   description: 'منصة العلم في حكاية - مقالات وفيديوهات علمية شيقة',
   manifest: '/manifest.json',
+  verification: {
+    google: '3Pc8TP64Alt1MOZZAetFNdHhi8syF1IPVEDKGodIFOU',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

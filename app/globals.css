@@ -158,6 +158,41 @@ body::after {
   color: var(--foreground);
 }
 
+/* ===================== GOOGLE TRANSLATE UI OVERRIDES ===================== */
+.goog-te-gadget {
+  font-family: inherit !important;
+  color: transparent !important;
+}
+.goog-te-gadget .goog-te-combo {
+  background: rgba(10, 10, 30, 0.8) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  color: var(--foreground) !important;
+  padding: 0.4rem 0.8rem !important;
+  font-family: inherit !important;
+  font-size: 0.9rem !important;
+  outline: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  transition: border-color 0.3s ease;
+}
+.goog-te-gadget .goog-te-combo:hover {
+  border-color: var(--primary-light) !important;
+}
+.goog-logo-link {
+  display: none !important;
+}
+.goog-te-gadget span {
+  display: none !important;
+}
+/* Hide the top translation banner */
+body {
+  top: 0 !important;
+}
+.skiptranslate.goog-te-banner-frame {
+  display: none !important;
+}
+
 .header-content nav a:hover::after {
   width: 100%;
 }

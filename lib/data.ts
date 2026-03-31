@@ -18,6 +18,8 @@ export interface Article {
   body: string;
   youtubeUrl?: string;
   categoryId?: string;
+  keywords?: string;
+  externalLinks?: string;
   isPublished: boolean;
   createdAt: string;
 }
@@ -131,6 +133,8 @@ export async function fetchContent() {
               .join(''),
         youtubeUrl: row['YouTube'] ? row['YouTube'].trim() : undefined,
         categoryId: catSlug,
+        keywords: row['Keywords'] ? row['Keywords'].trim() : undefined,
+        externalLinks: row['External Links'] ? row['External Links'].trim() : undefined,
         isPublished: true,
         createdAt: new Date(datePointer -= 1000).toISOString()
       });

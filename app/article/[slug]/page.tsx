@@ -78,6 +78,37 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           className="article-body" 
           dangerouslySetInnerHTML={{ __html: article.body }} 
         />
+
+        {article.externalLinks && (
+          <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--primary-light)' }}>روابط ومصادر إضافية 🔗</h3>
+            <div 
+              style={{ lineHeight: '1.8', color: 'var(--foreground-muted)' }}
+              dangerouslySetInnerHTML={{ __html: article.externalLinks.replace(/\r?\n/g, '<br />') }} 
+            />
+          </div>
+        )}
+
+        {article.keywords && (
+          <div style={{ marginTop: '2rem', display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+            {article.keywords.split(',').map((kw, i) => {
+              const keyword = kw.trim();
+              if (!keyword) return null;
+              return (
+                <span key={i} style={{ 
+                  background: 'rgba(124, 58, 237, 0.1)', 
+                  border: '1px solid var(--border)', 
+                  padding: '0.4rem 1rem', 
+                  borderRadius: '20px', 
+                  fontSize: '0.9rem',
+                  color: 'var(--foreground)' 
+                }}>
+                  #{keyword}
+                </span>
+              );
+            })}
+          </div>
+        )}
       </article>
     </div>
   );

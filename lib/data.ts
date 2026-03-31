@@ -163,10 +163,12 @@ export async function fetchContent() {
         });
       }
 
+      const articleSlug = toSafeSlug(row['Slug'].trim());
+
       articles.push({
-        id: row['Slug'].trim(),
+        id: articleSlug,
         title: row['Title'].trim(),
-        slug: row['Slug'].trim(),
+        slug: articleSlug,
         body: (row['Content'] || '').includes('<p>') 
           ? row['Content'] 
           : (row['Content'] || '')

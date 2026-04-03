@@ -5,7 +5,7 @@ export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { articles, categories } = await fetchContent();
-  const baseUrl = 'https://science-in-story.pages.dev';
+  const baseUrl = 'https://story.toolabx.com';
 
   // Base pages
   const staticPages: MetadataRoute.Sitemap = [

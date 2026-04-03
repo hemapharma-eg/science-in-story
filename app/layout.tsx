@@ -10,6 +10,7 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://story.toolabx.com'),
   title: 'العلم في حكاية - Science in Story',
   description: 'منصة العلم في حكاية - مقالات وفيديوهات علمية شيقة',
   manifest: '/manifest.json',
@@ -35,9 +36,9 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <head>
-        {/* Google Analytics */}
+        {/* Google Analytics - Measurement ID: G-1FJL0HXWJ5, Stream ID: 14303285021 */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-0GL5XJQDMV"
+          src="https://www.googletagmanager.com/gtag/js?id=G-1FJL0HXWJ5"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -45,7 +46,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-0GL5XJQDMV');
+            gtag('config', 'G-1FJL0HXWJ5');
           `}
         </Script>
 

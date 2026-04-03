@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://science-in-story.pages.dev/sitemap.xml
+Sitemap: https://story.toolabx.com/sitemap.xml

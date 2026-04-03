@@ -35,7 +35,7 @@ export default function AboutPage() {
             <li className="glass-panel" style={{ padding: '1rem', borderRadius: '8px', borderLeft: '4px solid var(--primary)' }}>
               <strong>🌌 الكون والفضاء:</strong> نستكشف الثقوب السوداء، النجوم، وأعظم أسرار الفضاء الخارجي.
             </li>
-            <li className="glass-panel" style={{ padding: '1rem', borderRadius: '8px', borderLeft: '4px solid var(--secondary)' }}>
+            <li className="glass-panel" style={{ padding: '1rem', borderRadius: '8px', borderLeft: '4px solid #f97316' }}>
               <strong>🏛️ التاريخ والتحقيقات:</strong> نفك طلاسم الحضارات القديمة، ونعيد فتح ملفات الألغاز الكبرى والتحقيقات التي حيرت العالم.
             </li>
             <li className="glass-panel" style={{ padding: '1rem', borderRadius: '8px', borderLeft: '4px solid #10b981' }}>

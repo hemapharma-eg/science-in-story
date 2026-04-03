@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
 import Script from 'next/script';
+import Link from 'next/link';
 import './globals.css';
 
 const cairo = Cairo({
@@ -61,9 +62,12 @@ export default function RootLayout({
         <div className="layout-wrapper">
           <header className="main-header">
             <div className="container header-content">
-              <h1>العلم في حكاية</h1>
+              <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <h1>العلم في حكاية</h1>
+              </Link>
               <nav>
-                <a href="/">الرئيسية</a>
+                <Link href="/">الرئيسية</Link>
+                <Link href="/about">من نحن</Link>
               </nav>
             </div>
           </header>

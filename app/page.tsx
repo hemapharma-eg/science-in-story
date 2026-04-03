@@ -66,6 +66,11 @@ export default async function HomePage() {
               articles.map((article) => (
                 <Link key={article.id} href={`/article/${article.slug}`} style={{ display: 'block' }}>
                   <article className="article-card glass-panel animate-fade-in">
+                    {article.imageUrl && (
+                      <div style={{ position: 'relative', width: '100%', height: '200px', marginBottom: '1rem', borderRadius: '12px', overflow: 'hidden' }}>
+                        <img src={article.imageUrl} alt={article.title} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                      </div>
+                    )}
                     <h4 className="article-card-title">{article.title}</h4>
                     <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center', marginTop: '0.5rem' }}>
                       {article.category && (

@@ -16,6 +16,7 @@ export interface Article {
   title: string;
   slug: string;
   body: string;
+  imageUrl?: string;
   youtubeUrl?: string;
   categoryId?: string;
   keywords?: string;
@@ -176,6 +177,7 @@ export async function fetchContent() {
               .filter(p => p.trim() !== '')
               .map(p => `<p>${p.replace(/\r?\n/g, '<br />')}</p>`)
               .join(''),
+        imageUrl: row['Image URL'] ? row['Image URL'].trim() : undefined,
         youtubeUrl: row['YouTube'] ? row['YouTube'].trim() : undefined,
         categoryId: catSlug,
         keywords: row['Keywords'] ? row['Keywords'].trim() : undefined,

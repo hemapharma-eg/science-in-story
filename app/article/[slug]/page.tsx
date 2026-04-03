@@ -73,6 +73,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </span>
           )}
         </header>
+
+        {article.imageUrl && (
+          <div style={{ marginBottom: '2rem', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 0 40px rgba(124, 58, 237, 0.1)' }}>
+            <img src={article.imageUrl} alt={article.title} style={{ width: '100%', maxHeight: '500px', objectFit: 'cover', display: 'block' }} />
+          </div>
+        )}
         
         {embedUrl && (
           <div className="video-wrapper">

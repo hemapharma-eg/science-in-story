@@ -70,6 +70,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           category.articles.map((article) => (
             <Link key={article.id} href={`/article/${article.slug}`} style={{ display: 'block' }}>
               <article className="article-card glass-panel animate-fade-in">
+                {article.imageUrl && (
+                  <div style={{ position: 'relative', width: '100%', height: '200px', marginBottom: '1rem', borderRadius: '12px', overflow: 'hidden' }}>
+                    <img src={article.imageUrl} alt={article.title} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                  </div>
+                )}
                 <h4 className="article-card-title">{article.title}</h4>
                 {article.youtubeUrl && (
                   <span className="video-badge">🎥 يحتوي على فيديو</span>

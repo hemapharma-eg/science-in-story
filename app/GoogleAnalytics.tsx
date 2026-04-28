@@ -4,19 +4,20 @@ import { useEffect } from 'react';
 
 export default function GoogleAnalytics({ gaId }: { gaId: string }) {
   useEffect(() => {
-    // Load gtag.js
+    // Initialize dataLayer and global gtag function FIRST
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function (...args: any[]) {
+      window.dataLayer.push(arguments);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', gaId);
+
+    // Then load the external gtag.js script
     const script = document.createElement('script');
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
     script.async = true;
+    script.crossOrigin = 'anonymous';
     document.head.appendChild(script);
-
-    // Initialize dataLayer and gtag
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) {
-      window.dataLayer.push(args);
-    }
-    gtag('js', new Date());
-    gtag('config', gaId);
   }, [gaId]);
 
   return null;
@@ -26,5 +27,6 @@ export default function GoogleAnalytics({ gaId }: { gaId: string }) {
 declare global {
   interface Window {
     dataLayer: any[];
+    gtag: (...args: any[]) => void;
   }
 }

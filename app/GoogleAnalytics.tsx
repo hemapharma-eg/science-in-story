@@ -6,17 +6,18 @@ export default function GoogleAnalytics({ gaId }: { gaId: string }) {
   useEffect(() => {
     // Initialize dataLayer and global gtag function FIRST
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function (...args: any[]) {
+    window.gtag = function () {
+      // eslint-disable-next-line prefer-rest-params
       window.dataLayer.push(arguments);
     };
     window.gtag('js', new Date());
     window.gtag('config', gaId);
 
-    // Then load the external gtag.js script
+    // Load the external gtag.js script WITHOUT crossOrigin
     const script = document.createElement('script');
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
     script.async = true;
-    script.crossOrigin = 'anonymous';
+    // Do NOT set script.crossOrigin — Google's servers don't send CORS headers
     document.head.appendChild(script);
   }, [gaId]);
 

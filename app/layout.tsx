@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
-import Script from 'next/script';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import Link from 'next/link';
 import './globals.css';
 
@@ -57,20 +57,6 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <head>
-        {/* Google Analytics - Measurement ID: G-1FJL0HXWJ5, Stream ID: 14303285021 */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-1FJL0HXWJ5"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1FJL0HXWJ5');
-          `}
-        </Script>
-
         {/* Google AdSense Script Placeholder */}
         <script 
           async 
@@ -104,6 +90,7 @@ export default function RootLayout({
           </footer>
         </div>
       </body>
+      <GoogleAnalytics gaId="G-1FJL0HXWJ5" />
     </html>
   );
 }

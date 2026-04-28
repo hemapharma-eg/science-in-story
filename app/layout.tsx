@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
 import Link from 'next/link';
+import GoogleAnalytics from './GoogleAnalytics';
 import './globals.css';
-
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -56,26 +56,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className={cairo.variable}>
-      <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-1FJL0HXWJ5" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-1FJL0HXWJ5');
-            `,
-          }}
-        />
-        {/* Google AdSense Script Placeholder */}
-        <script 
-          async 
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" 
-          crossOrigin="anonymous"
-        ></script>
-      </head>
+      <head />
       <body className={cairo.className}>
+        <GoogleAnalytics gaId="G-1FJL0HXWJ5" />
         <div className="layout-wrapper">
           <header className="main-header">
             <div className="container header-content">

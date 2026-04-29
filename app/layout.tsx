@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
 import Link from 'next/link';
-import GoogleAnalytics from './GoogleAnalytics';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 
 const cairo = Cairo({

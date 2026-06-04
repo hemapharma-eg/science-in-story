@@ -58,7 +58,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <head />
       <body className={cairo.className}>
-        <CustomGoogleAnalytics gaId="G-1FJL0HXWJ5" />
+        <CustomGoogleAnalytics gaId="G-0GL5XJQDMV" />
         <div className="layout-wrapper">
           <header className="main-header">
             <div className="container header-content">

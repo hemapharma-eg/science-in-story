@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
 import Link from 'next/link';
-import CustomGoogleAnalytics from './components/GoogleAnalytics';
+import Script from 'next/script';
 import './globals.css';
 
 const cairo = Cairo({
@@ -58,7 +58,19 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <head />
       <body className={cairo.className}>
-        <CustomGoogleAnalytics gaId="G-0GL5XJQDMV" />
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-0GL5XJQDMV"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-0GL5XJQDMV');
+          `}
+        </Script>
         <div className="layout-wrapper">
           <header className="main-header">
             <div className="container header-content">

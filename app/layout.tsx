@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Cairo } from 'next/font/google';
 import Link from 'next/link';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import CustomGoogleAnalytics from './components/GoogleAnalytics';
 import './globals.css';
 
 const cairo = Cairo({
@@ -58,7 +58,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <head />
       <body className={cairo.className}>
-        <GoogleAnalytics gaId="G-1FJL0HXWJ5" />
+        <CustomGoogleAnalytics gaId="G-1FJL0HXWJ5" />
         <div className="layout-wrapper">
           <header className="main-header">
             <div className="container header-content">

@@ -60,7 +60,7 @@ export default function RootLayout({
       <body className={cairo.className}>
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-0GL5XJQDMV"
+          src="https://www.googletagmanager.com/gtag/js?id=G-1FJL0HXWJ5"
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
@@ -68,7 +68,7 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'G-0GL5XJQDMV');
+            gtag('config', 'G-1FJL0HXWJ5');
           `}
         </Script>
         <div className="layout-wrapper">
